@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { configValidationSchema } from './app.config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { PostModule } from './post/post.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { AppService } from './app.service';
     }),
     MongooseModule.forRoot(
       `mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASE}`
-    )
+    ),
+    PostModule
   ],
   controllers: [AppController],
   providers: [AppService]
