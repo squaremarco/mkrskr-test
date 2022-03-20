@@ -1,11 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { configValidationSchema } from './app.config';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { PostModule } from './post/post.module';
@@ -25,6 +24,12 @@ import { UserModule } from './user/user.module';
     UserModule
   ],
   controllers: [AppController],
-  providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }]
+  providers: [
+    {
+      provide: APP_GUARD,
+      useFactory: () => new ValidationPipe({ transform: true })
+    },
+    { provide: APP_GUARD, useClass: JwtAuthGuard }
+  ]
 })
 export class AppModule {}
