@@ -1,13 +1,26 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Response } from 'express';
 
-import { AppService } from './app.service';
+import { AuthService } from './auth/auth.service';
+import { ACCESS_TOKEN } from './auth/constants';
+import { Public } from './auth/public.metadata';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly authService: AuthService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Public()
+  @Post('auth/login')
+  async login(@Body() body, @Res() response: Response) {
+    const { username, password } = body;
+
+    const { access_token } = await this.authService.login(username, password);
+
+    response
+      .cookie(ACCESS_TOKEN, access_token, {
+        httpOnly: true,
+        expires: new Date(Date.now() + 60 * 10 * 1000)
+      })
+      .send({ success: true });
   }
 }
