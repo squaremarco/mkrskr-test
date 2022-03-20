@@ -16,14 +16,20 @@ export class PostService {
     @InjectModel(Post.name) private readonly postModel: Model<Post>
   ) {}
 
-  getAll({ perPage, page = 1 }: PaginationDto) {
-    return this.postModel
+  async getAll({ perPage, page = 1 }: PaginationDto) {
+    const totalPages = Math.ceil((await this.postModel.count()) / perPage);
+    const data = await this.postModel
       .find()
       .limit(perPage)
       .populate({ path: 'user', select: 'username' })
       .populate({ path: 'comments.user', select: 'username' })
       .skip((page - 1) * perPage)
       .exec();
+
+    return {
+      data,
+      totalPages
+    };
   }
 
   async getOne(id: string) {

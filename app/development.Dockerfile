@@ -7,6 +7,7 @@ COPY package*.json ./
 COPY tsconfig*.json ./
 RUN npm ci
 
+COPY public public
 COPY src src
 
-CMD npm run start:dev
+CMD npm run start
