@@ -1,16 +1,14 @@
+import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import Button from '@mui/material/Button';
+import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
+import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
-import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 
 import { usePostsInfinite } from '../../queries/post';
-
-const Item = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(2),
-  color: theme.palette.text.secondary
-}));
 
 const Posts = () => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
@@ -22,10 +20,45 @@ const Posts = () => {
     <Stack spacing={2}>
       {data?.pages.map((group) =>
         group.response.map((post) => (
-          <Item key={post._id} onClick={() => navigate(`/${post._id}`)}>
-            {post.title} - {post.user.username} - {post.createdAt} - comments:{' '}
-            {post.comments.length}
-          </Item>
+          <Paper
+            key={post._id}
+            sx={{
+              p: 2,
+              flexGrow: 1,
+              cursor: 'pointer'
+            }}
+          >
+            <Grid
+              container
+              spacing={1}
+              onClick={() => navigate(`./${post._id}`)}
+            >
+              <Grid item xs={12} sm container alignItems="center">
+                <Grid item xs container direction="column">
+                  <Grid item xs>
+                    <Typography variant="h5" component="div">
+                      {post.title}
+                    </Typography>
+                    <Typography
+                      fontStyle="italic"
+                      variant="caption"
+                      color="text.secondary"
+                    >
+                      Posted by: {post.user.username} @ {post.createdAt}
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Grid item>
+                  <Typography variant="subtitle1" component="div">
+                    <Chip
+                      icon={<ModeCommentOutlinedIcon />}
+                      label={post.comments.length}
+                    />
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Paper>
         ))
       )}
       {hasNextPage &&

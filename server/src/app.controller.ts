@@ -22,4 +22,13 @@ export class AppController {
       })
       .send({ success: true });
   }
+
+  @Post('auth/logout')
+  async logout(@Res() response: Response) {
+    response
+      .cookie(ACCESS_TOKEN, '', {
+        httpOnly: true
+      })
+      .send({ success: true });
+  }
 }

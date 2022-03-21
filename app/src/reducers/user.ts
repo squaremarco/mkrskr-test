@@ -17,6 +17,10 @@ export const login = createAsyncThunk(
   }
 );
 
+export const logout = createAsyncThunk('user/logout', () =>
+  axiosInstance.post<UserMetadata>('/auth/logout').then(() => ({}))
+);
+
 export const fetchUserMe = createAsyncThunk('user/fetchUserMe', () =>
   axiosInstance.get<UserMetadata>('/user/me').then((res) => res.data)
 );
@@ -28,6 +32,7 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchUserMe.fulfilled, (_, action) => action.payload);
     builder.addCase(login.fulfilled, (_, action) => action.payload);
+    builder.addCase(logout.fulfilled, (_, action) => action.payload);
   }
 });
 
