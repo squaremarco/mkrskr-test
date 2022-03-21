@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 
-import { usePost } from '../../queries';
+import { usePost } from '../../queries/post';
 
 const Post = () => {
   const { id } = useParams();
