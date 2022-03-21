@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException, Req } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+  Req
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -25,7 +30,14 @@ export class UserService {
     );
   }
 
-  create(body: CreateUserDto) {
+  async create(body: CreateUserDto) {
+    if (await this.userModel.findOne({ username: body.username }).exec()) {
+      throwsException(
+        ConflictException,
+        `User ${body.username} already exists.`
+      );
+    }
+
     return this.userModel.create(body);
   }
 

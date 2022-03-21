@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import axiosInstance from '../axiosInstance';
-import { UserMetadata } from '../types';
+import { User, UserMetadata } from '../types';
 
 type UserState = Partial<UserMetadata>;
 

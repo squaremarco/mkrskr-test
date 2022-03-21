@@ -38,7 +38,7 @@ export const useCreatePost = () => {
     unknown,
     Pick<Post, 'title' | 'content'>
   >(
-    'post',
+    'createPost',
     (comment) => axiosInstance.post(`/post`, comment).then((res) => res.data),
     {
       onSuccess: () => {
@@ -51,10 +51,20 @@ export const useCreatePost = () => {
 
 export const useCreateComment = (id: string) =>
   useMutation<Pick<Comment, 'content'>, unknown, Pick<Comment, 'content'>>(
-    'post/comment',
+    'post/createComment',
     (comment) =>
       axiosInstance
         .patch(`/post/${id}/comment`, comment)
+        .then((res) => res.data),
+    { onSuccess: () => queryClient.invalidateQueries('post') }
+  );
+
+export const useDeleteComment = (id: string) =>
+  useMutation(
+    'post/deleteComment',
+    (commentId: string) =>
+      axiosInstance
+        .delete(`/post/${id}/comment/${commentId}`)
         .then((res) => res.data),
     { onSuccess: () => queryClient.invalidateQueries('post') }
   );

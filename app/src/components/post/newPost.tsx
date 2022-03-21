@@ -42,6 +42,7 @@ const NewPost = () => {
             label="Title"
             variant="standard"
             value={title}
+            required
             onChange={(e) => setTitle(e.target.value)}
             sx={{ marginBottom: 2, marginTop: 2 }}
           />

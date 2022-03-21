@@ -7,6 +7,8 @@ import NavBar from './components/navbar';
 import NewPost from './components/post/newPost';
 import Post from './components/post/post';
 import Posts from './components/post/posts';
+import Login from './components/user/login';
+import Signup from './components/user/signup';
 import { useAppDispatch } from './hooks';
 import { queryClient } from './queries';
 import { fetchUserMe } from './reducers/user';
@@ -23,6 +25,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Posts />} />
           <Route path="/new" element={<NewPost />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/:id" element={<Post />} />
         </Routes>
       </Box>

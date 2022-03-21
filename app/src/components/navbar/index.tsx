@@ -1,6 +1,7 @@
 import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
+import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -27,6 +28,7 @@ const NavBar = () => {
           variant="h5"
           fontWeight="bold"
           component="div"
+          onClick={() => navigate('/')}
         >
           Makr Shakr - Test
         </Typography>
@@ -36,7 +38,7 @@ const NavBar = () => {
               startIcon={<AddCommentOutlinedIcon />}
               onClick={() => navigate('/new')}
             >
-              Create
+              New Post
             </Button>
           </ButtonGroup>
         )}
@@ -50,14 +52,18 @@ const NavBar = () => {
             <LogoutIcon />
           </IconButton>
         ) : (
-          <IconButton
-            color="inherit"
-            onClick={() =>
-              dispatch(login({ username: 'test2', password: 'test2' }))
-            }
-          >
-            <LoginIcon />
-          </IconButton>
+          <>
+            <Button
+              startIcon={<PersonAddAltRoundedIcon />}
+              color="inherit"
+              onClick={() => navigate('/signup')}
+            >
+              Signup
+            </Button>
+            <IconButton color="inherit" onClick={() => navigate('/login')}>
+              <LoginIcon />
+            </IconButton>
+          </>
         )}
       </Toolbar>
     </AppBar>

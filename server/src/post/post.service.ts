@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -67,12 +71,15 @@ export class PostService {
   }
 
   async removeComment(postId: string, commentId: string, user: UserMetadata) {
-    return this.postModel
-      .findByIdAndUpdate(
-        postId,
-        { $pull: { comments: { _id: commentId, user: user.sub } } },
-        { new: true }
-      )
-      .exec();
+    return (
+      (await this.postModel
+        .findByIdAndUpdate(
+          postId,
+          { $pull: { comments: { _id: commentId, user: user.sub } } },
+          { new: true }
+        )
+        .exec()) ??
+      throwsException(ForbiddenException, `Can't delete another user comment!`)
+    );
   }
 }

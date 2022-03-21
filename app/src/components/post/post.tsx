@@ -1,8 +1,10 @@
 import styled from '@emotion/styled';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -14,8 +16,12 @@ import { useParams } from 'react-router-dom';
 import remarkGfm from 'remark-gfm';
 
 import { useAppSelector } from '../../hooks';
-import { useCreateComment, usePost } from '../../queries/post';
-import { getUsername } from '../../selectors/user';
+import {
+  useCreateComment,
+  useDeleteComment,
+  usePost
+} from '../../queries/post';
+import { getUserId, getUsername } from '../../selectors/user';
 import LinkButton from '../common/linkButton';
 
 const StyledEditor = styled(MDEditor)`
@@ -30,56 +36,69 @@ const Post = () => {
   const { id } = useParams();
   const { data } = usePost(id!);
   const createComment = useCreateComment(id!);
+  const deleteComment = useDeleteComment(id!);
   const user = useAppSelector(getUsername);
+  const userId = useAppSelector(getUserId);
 
   const [editorState, setEditorState] = useState<string | undefined>('');
 
   return (
     <Box>
       <LinkButton to="../">Back</LinkButton>
-      <h1>{data?.title}</h1>
-      <p>{data?.content}</p>
+      {data && <h1>{data.title}</h1>}
+      {data && (
+        <ReactMarkdown children={data.content} remarkPlugins={[remarkGfm]} />
+      )}
       {user && (
-        <Paper sx={{ marginBottom: 1 }}>
-          <StyledEditor
-            placeholder="Add a comment..."
-            value={editorState}
-            onChange={setEditorState}
-          />
-          <ButtonGroup
-            sx={{ justifySelf: 'flex-end' }}
-            disableElevation
-            variant="contained"
-            size="small"
+        <>
+          <Typography
+            sx={{ marginBottom: 1 }}
+            color="text.secondary"
+            component="div"
           >
-            <Button
-              sx={{
-                borderTopLeftRadius: 0,
-                borderTopRightRadius: 0,
-                borderBottomRightRadius: 0
-              }}
+            Add comment:
+          </Typography>
+          <Paper sx={{ marginBottom: 1 }}>
+            <StyledEditor
+              placeholder="Add a comment..."
+              value={editorState}
+              onChange={setEditorState}
+            />
+            <ButtonGroup
+              sx={{ justifySelf: 'flex-end' }}
               disableElevation
-              onClick={() => {
-                createComment.mutate({ content: editorState! });
-                setEditorState('');
-              }}
-              disabled={!editorState}
+              variant="contained"
+              size="small"
             >
-              Submit
-            </Button>
-            <Button
-              sx={{
-                borderTopLeftRadius: 0,
-                borderTopRightRadius: 0,
-                borderBottomRightRadius: 0
-              }}
-              disableElevation
-              onClick={() => setEditorState('')}
-            >
-              Clear
-            </Button>
-          </ButtonGroup>
-        </Paper>
+              <Button
+                sx={{
+                  borderTopLeftRadius: 0,
+                  borderTopRightRadius: 0,
+                  borderBottomRightRadius: 0
+                }}
+                disableElevation
+                onClick={() => {
+                  createComment.mutate({ content: editorState! });
+                  setEditorState('');
+                }}
+                disabled={!editorState}
+              >
+                Submit
+              </Button>
+              <Button
+                sx={{
+                  borderTopLeftRadius: 0,
+                  borderTopRightRadius: 0,
+                  borderBottomRightRadius: 0
+                }}
+                disableElevation
+                onClick={() => setEditorState('')}
+              >
+                Clear
+              </Button>
+            </ButtonGroup>
+          </Paper>
+        </>
       )}
       {!isEmpty(data?.comments) && (
         <>
@@ -117,6 +136,15 @@ const Post = () => {
                         </Typography>
                       </Grid>
                     </Grid>
+                    {comment.user._id === userId && (
+                      <Grid item xs="auto">
+                        <IconButton
+                          onClick={() => deleteComment.mutate(comment._id)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </Grid>
+                    )}
                   </Grid>
                 </Grid>
               </Paper>
