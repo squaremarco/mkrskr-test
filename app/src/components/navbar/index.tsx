@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { login, logout } from '../../reducers/user';
+import { logout } from '../../reducers/user';
 import { getUsername } from '../../selectors/user';
 
 const NavBar = () => {

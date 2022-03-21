@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import { QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
+// import { ReactQueryDevtools } from 'react-query/devtools';
 import { Route, Routes } from 'react-router-dom';
 
 import NavBar from './components/navbar';
@@ -30,7 +30,7 @@ const App = () => {
           <Route path="/:id" element={<Post />} />
         </Routes>
       </Box>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </QueryClientProvider>
   );
 };
