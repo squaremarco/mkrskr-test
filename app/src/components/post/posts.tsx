@@ -1,20 +1,26 @@
+import DeleteIcon from '@mui/icons-material/Delete';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 
-import { usePostsInfinite } from '../../queries/post';
+import { useAppSelector } from '../../hooks';
+import { useDeletePost, usePostsInfinite } from '../../queries/post';
+import { getUserId } from '../../selectors/user';
 
 const Posts = () => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     usePostsInfinite();
-
   const navigate = useNavigate();
+
+  const userId = useAppSelector(getUserId);
+  const deletePost = useDeletePost();
 
   return (
     <Stack spacing={2}>
@@ -28,13 +34,15 @@ const Posts = () => {
               cursor: 'pointer'
             }}
           >
-            <Grid
-              container
-              spacing={1}
-              onClick={() => navigate(`./${post._id}`)}
-            >
+            <Grid container spacing={1}>
               <Grid item xs={12} sm container alignItems="center">
-                <Grid item xs container direction="column">
+                <Grid
+                  item
+                  xs
+                  container
+                  direction="column"
+                  onClick={() => navigate(`./${post._id}`)}
+                >
                   <Grid item xs>
                     <Typography variant="h5" component="div">
                       {post.title}
@@ -49,12 +57,16 @@ const Posts = () => {
                   </Grid>
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle1" component="div">
-                    <Chip
-                      icon={<ModeCommentOutlinedIcon />}
-                      label={post.comments.length}
-                    />
-                  </Typography>
+                  <Chip
+                    icon={<ModeCommentOutlinedIcon />}
+                    label={post.comments.length}
+                    onClick={() => navigate(`./${post._id}`)}
+                  />
+                  {post.user._id === userId && (
+                    <IconButton onClick={() => deletePost.mutate(post._id)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  )}
                 </Grid>
               </Grid>
             </Grid>

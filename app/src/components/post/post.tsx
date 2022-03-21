@@ -137,7 +137,7 @@ const Post = () => {
                       </Grid>
                     </Grid>
                     {comment.user._id === userId && (
-                      <Grid item xs="auto">
+                      <Grid item>
                         <IconButton
                           onClick={() => deleteComment.mutate(comment._id)}
                         >

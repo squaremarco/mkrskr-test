@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { evolve, trim } from 'rambdax';
 
 import { PaginationDto } from '../common/dto/pagination.dto';
 import { UserMetadata } from '../common/dto/request.dto';
@@ -47,7 +48,10 @@ export class PostService {
   }
 
   create(body: CreatePostDto, user: UserMetadata) {
-    return this.postModel.create({ ...body, user: user.sub });
+    return this.postModel.create({
+      ...evolve({ title: trim })(body),
+      user: user.sub
+    });
   }
 
   async update(id: string, body: UpdatePostDto) {
@@ -65,7 +69,7 @@ export class PostService {
   async addComment(id: string, body: AddCommentDto, user: UserMetadata) {
     return this.postModel.findByIdAndUpdate(
       id,
-      { $push: { comments: { ...body, user: user.sub } } },
+      { $push: { comments: { ...body }, user: user.sub } },
       { new: true }
     );
   }

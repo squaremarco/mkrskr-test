@@ -43,11 +43,22 @@ export const useCreatePost = () => {
     {
       onSuccess: () => {
         navigate('/');
-        queryClient.invalidateQueries('post');
+        queryClient.invalidateQueries('posts');
       }
     }
   );
 };
+
+export const useDeletePost = () =>
+  useMutation(
+    'deletePost',
+    (id: string) => axiosInstance.delete(`/post/${id}`).then((res) => res.data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('posts');
+      }
+    }
+  );
 
 export const useCreateComment = (id: string) =>
   useMutation<Pick<Comment, 'content'>, unknown, Pick<Comment, 'content'>>(
