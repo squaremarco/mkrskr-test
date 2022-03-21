@@ -69,7 +69,7 @@ export class PostService {
   async addComment(id: string, body: AddCommentDto, user: UserMetadata) {
     return this.postModel.findByIdAndUpdate(
       id,
-      { $push: { comments: { ...body }, user: user.sub } },
+      { $push: { comments: { ...body, user: user.sub } } },
       { new: true }
     );
   }
