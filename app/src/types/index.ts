@@ -16,7 +16,7 @@ export type UserMetadata = {
 export type Comment = {
   content: string;
   user: User;
-};
+} & Base;
 
 export type Post = {
   content: string;

@@ -1,15 +1,15 @@
 import Box from '@mui/material/Box';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Route, Routes } from 'react-router-dom';
 
 import NavBar from './components/navbar';
+import NewPost from './components/post/newPost';
 import Post from './components/post/post';
 import Posts from './components/post/posts';
 import { useAppDispatch } from './hooks';
+import { queryClient } from './queries';
 import { fetchUserMe } from './reducers/user';
-
-const queryClient = new QueryClient();
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -22,6 +22,7 @@ const App = () => {
       <Box sx={{ padding: '2rem' }}>
         <Routes>
           <Route path="/" element={<Posts />} />
+          <Route path="/new" element={<NewPost />} />
           <Route path="/:id" element={<Post />} />
         </Routes>
       </Box>

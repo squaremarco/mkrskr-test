@@ -8,14 +8,17 @@
     "@mui/icons-material": "^5.5.1",
     "@mui/material": "^5.5.1",
     "@reduxjs/toolkit": "^1.8.0",
+    "@uiw/react-md-editor": "^3.11.1",
     "axios": "^0.26.1",
     "rambdax": "^8.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-markdown": "^8.0.1",
     "react-query": "^3.34.16",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
+    "remark-gfm": "^3.0.1",
     "typescript": "^4.6.2"
   },
   "scripts": {
