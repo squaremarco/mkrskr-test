@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 
 import { User } from '../../user/entities/user.entity';
 
-@Schema()
+@Schema({ timestamps: true })
 export class Comment {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   user: User;
@@ -12,7 +12,7 @@ export class Comment {
   content: string;
 }
 
-@Schema()
+@Schema({ timestamps: true })
 export class Post {
   @Prop()
   title: string;

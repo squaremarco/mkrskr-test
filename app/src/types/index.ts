@@ -1,10 +1,17 @@
 export type Base = {
   _id: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type User = {
   username: string;
 } & Base;
+
+export type UserMetadata = {
+  username: string;
+  sub: string;
+};
 
 export type Comment = {
   content: string;

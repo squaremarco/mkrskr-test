@@ -18,8 +18,7 @@ export class AppController {
 
     response
       .cookie(ACCESS_TOKEN, access_token, {
-        httpOnly: true,
-        expires: new Date(Date.now() + 60 * 10 * 1000)
+        httpOnly: true
       })
       .send({ success: true });
   }

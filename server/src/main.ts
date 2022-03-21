@@ -7,11 +7,12 @@ import helmet from 'helmet';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
   const port = configService.get('PORT');
 
+  app.enableCors({ credentials: true, origin: 'http://localhost:4000' });
   app.use(helmet());
   app.use(cookieParser());
 

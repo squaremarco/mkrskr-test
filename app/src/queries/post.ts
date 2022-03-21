@@ -8,7 +8,7 @@ export const usePostsInfinite = () =>
     'posts',
     ({ pageParam = 1 }) =>
       axiosInstance
-        .get(`/post?perPage=10&page=${pageParam}`)
+        .get(`/post?perPage=2&page=${pageParam}`)
         .then(({ data }) => ({
           response: data.data,
           nextPage: pageParam + 1,
