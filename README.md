@@ -2,7 +2,9 @@
 
 ## Development
 
-To run the application you must have docker and docker-compose installed on your machine and run the following command in a terminal:
+To run the application you must have `docker` and `docker-compose` installed on your machine.
+
+Run the following command in a terminal:
 
 ```sh
 docker-compose up --build
